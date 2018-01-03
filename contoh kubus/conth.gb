@@ -1,0 +1,107 @@
+'posisi mata 
+Dim pmatax# = 0
+Dim pmatay# = 0 
+Dim pmataz# = 9 
+
+'posisi titik pandang 
+Dim ppandangx# = 0 
+Dim ppandangy# = 0
+Dim ppandangz# = -9    
+
+Dim pindah# = 0.01   
+
+'variabel untuk menyimpan gambar tekstur
+Dim tekstur
+tekstur = loadmipmaptexture("gbr/batik.jpg")                                        
+
+'beritahu bahwa akan menggunakan tekstur
+glEnable(gl_texture_2d)
+
+while true 
+glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
+glLoadIdentity()
+
+gluLookAt(pmatax#, pmatay#, pmataz#, ppandangx#, ppandangy#, ppandangz#, 0,1,0) 'posisi mata, posisi titik pandang, vektor up (0,1,0)
+
+glBindTexture(gl_texture_2d, tekstur)
+
+glBegin(GL_QUADS)  'sisi depan 
+   glTexCoord2d(1,1)
+   glVertex3f(1, 1, -1) 'kanan atas   
+   glTexCoord2d(0,1)
+   glVertex3f(-1, 1, -1) 'kiri atas
+   glTexCoord2d(0,0)
+   glVertex3f(-1, -1, -1) 'kiri bawah  
+   glTexCoord2d(1,0)
+   glVertex3f(1, -1, -1)'kanan bawah 
+glEnd()                                      
+
+glBegin(GL_QUADS)  'sisi belakang 
+   glTexCoord2d(0,1)
+   glVertex3f(1, 1, 1) 'kanan atas   
+   glTexCoord2d(0,0)
+   glVertex3f(-1, 1, 1) 'kiri atas
+   glTexCoord2d(1,0)
+   glVertex3f(-1, -1, 1) 'kiri bawah 
+   glTexCoord2d(1,1)
+   glVertex3f(1, -1, 1)'kanan bawah 
+glEnd()                                        
+       
+glBegin(GL_QUADS)  'sisi atas 
+   glTexCoord2d(0,1)
+   glVertex3f(1, 1, -1) 'kanan depan   
+   glTexCoord2d(0,0)
+   glVertex3f(1, 1, 1) 'kanan belakang 
+   glTexCoord2d(1,0)
+   glVertex3f(-1, 1, 1) 'kiri belakang  
+   glTexCoord2d(1,1)
+   glVertex3f(-1, 1, -1)'kiri depan 
+glEnd()
+
+glbegin(gl_quaDS) 'sisi bawah
+	gltexcoord2d(0,1)
+	glVertex3f(1, -1, -1) 'kanan depan   
+   glTexCoord2d(0,0)
+   glVertex3f(1, -1, 1) 'kanan belakang 
+   glTexCoord2d(1,0)
+   glVertex3f(-1, -1, 1) 'kiri belakang  
+   glTexCoord2d(1,1)
+   glVertex3f(-1, -1, -1)'kiri depan
+glend()
+
+glBegin(GL_QUADS)  'sisi kanan 
+   glTexCoord2d(1,1)
+   glVertex3f(1, 1, 1) 'kanan atas   
+   glTexCoord2d(0,1)
+   glVertex3f(1, 1, -1) 'kiri atas
+   glTexCoord2d(0,0)
+   glVertex3f(1, -1, -1) 'kiri bawah  
+   glTexCoord2d(1,0)
+   glVertex3f(1, -1, 1)'kanan bawah 
+glEnd()
+
+glBegin(GL_QUADS)  'sisi kanan 
+   glTexCoord2d(1,1)
+   glVertex3f(-1, 1, 1) 'kanan atas   
+   glTexCoord2d(0,1)
+   glVertex3f(-1, 1, -1) 'kiri atas
+   glTexCoord2d(0,0)
+   glVertex3f(-1, -1, -1) 'kiri bawah  
+   glTexCoord2d(1,0)
+   glVertex3f(-1, -1, 1)'kanan bawah 
+glEnd()
+
+
+swapBuffers()
+
+if scankeydown(VK_RIGHT) then 
+    pmatax# = pmatax# + pindah#
+elseif scankeydown(VK_LEFT) then 
+    pmatax# = pmatax# - pindah#      
+elseif scankeydown(VK_UP) then 
+    pmatay# = pmatay# + pindah#
+elseif scankeydown(VK_down) then 
+    pmatay# = pmatay# - pindah#  
+endif
+
+wend
